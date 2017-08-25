@@ -22,7 +22,8 @@ class ViewController: UIViewController {
         
         respuesta.numberOfLines = 50
         self.respuesta.text =  ("" as! String)
-        //
+        
+        //PRUEBA PARA VER SI TOMA LOS CAMBIOS
         
         var session = URLSession.shared
         var err: NSError?
