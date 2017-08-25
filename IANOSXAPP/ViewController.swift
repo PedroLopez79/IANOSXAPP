@@ -14,9 +14,7 @@ class ViewController: UIViewController {
     @IBOutlet weak var respuesta: UILabel!
     
     @IBAction func pressbutton(_ sender: Any) {
-        
-        
-        
+
         print("a punto de hacer peticion")
         print("\(usuario.text!)")
         
@@ -43,29 +41,31 @@ class ViewController: UIViewController {
         theRequest.httpBody = soapMessage.data(using: String.Encoding.utf8, allowLossyConversion: false) // or false
         let connection = NSURLConnection(request: theRequest as URLRequest, delegate: self, startImmediately: true)
         
-        var task = session.dataTask(with: theRequest as URLRequest, completionHandler: {data, response, error -> Void in
+        var task = session.dataTask(with: theRequest as URLRequest, completionHandler:
+        {
+            data, response, error -> Void in
+            do
+            {
             
-            do{
-            print("Response: \(response)")
-            
-            
-            let strData = NSString(data: data!, encoding: String.Encoding.utf8.rawValue)
-            
-            DispatchQueue.main.async() {
-                self.respuesta.text =  ("\(strData)")
-
                 print("Response: \(response)")
+                let strData = NSString(data: data!, encoding: String.Encoding.utf8.rawValue)
+                
+                DispatchQueue.main.async()
+                    {
+                        self.respuesta.text =  ("\(strData)")
+                        print("Response: \(response)")
+                    }
+            }
+            catch
+            {
+                DispatchQueue.main.async()
+                    {
+                        self.respuesta.text =  ("\(response)")
+                        print("Response: \(response)")
                 }
             }
-            catch {
-            DispatchQueue.main.async() {
-                self.respuesta.text =  ("\(response)")
-
-            print("Response: \(response)")
-        
-                }}})
+        })
         task.resume()
-        
         session.finishTasksAndInvalidate()
     }
     
